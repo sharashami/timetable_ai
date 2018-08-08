@@ -1,0 +1,56 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<ui:composition template="/WEB-INF/templates/login.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml" 
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+	<ui:define name="breadcrumb">
+		<p:breadCrumb> 
+			<p:menuitem value="Home" url="/faces/index.xhtml" />
+		    <p:menuitem value="Login" url="#" styleClass="active"/>
+		</p:breadCrumb>
+	</ui:define>
+  	 	 
+	<ui:define name="conteudo">
+		
+        <center>
+        	<h:form id="frmGeral" styleClass="formulario login" >
+				
+		        <p:messages id="messages"/>
+				<div class="row spacing"></div>
+				                
+              	<h:panelGrid columns="3"  id="pnDvds">
+              	
+	            	<p:outputLabel id="lbSenhaAntiga" value="Senha Antiga:" for="senha_antiga"/>
+	                <p:inputText id="senha_antiga" size="30" styleClass="senha" value="#{loginBean.professor.senha}"  
+		                   	type="password" required="true" requiredMessage="Campo [Senha] é obrigatório.">
+		                   	<f:validateLength maximum="64" ></f:validateLength>
+					</p:inputText>
+					<p:message for="senha_antiga"></p:message>   
+					
+					<p:outputLabel id="lbSenhaNova" value="Nova Senha:" for="senha_nova"/>
+	                <p:inputText id="senha_nova" size="30" styleClass="senha" value="#{loginBean.senhaNova}"  
+		                   	type="password" required="true" requiredMessage="Campo [Senha] é obrigatório.">
+		                   	<f:validateLength maximum="64" ></f:validateLength>
+					</p:inputText>
+					<p:message for="senha_nova"></p:message>
+					
+					<p:outputLabel id="lbSenhaNova2" value="Repita Nova Senha:" for="senha_nova2"/>
+	                <p:inputText id="senha_nova2" size="30" styleClass="senha" value="#{loginBean.senhaNova2}"  
+		                   	type="password" required="true" requiredMessage="Campo [Senha] é obrigatório.">
+		                   	<f:validateLength maximum="64" ></f:validateLength>
+					</p:inputText>
+					<p:message for="senha_nova2"></p:message>
+					   
+					<p:commandButton value="Entrar" styleClass="pull-right" action="#{loginBean.alterarSenha()}"
+	                            update="frmGeral, messages" />
+                                       
+                </h:panelGrid>
+               
+        	</h:form>
+         </center>
+	</ui:define>
+</ui:composition>

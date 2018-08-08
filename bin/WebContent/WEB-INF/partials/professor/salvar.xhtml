@@ -1,0 +1,68 @@
+<ui:composition 
+	xmlns="http://www.w3.org/1999/xhtml" 
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+	       
+        <h:form id="grid" styleClass="formulario">
+			<p:messages globalOnly="true" showSummary="true" showDetail="true"/>
+			
+			<div class="row spacing">
+	  			<div class="pull-right" style="padding-right: 13px">
+	  			
+	  				<p:commandButton value="Salvar" action="#{professorBean.salvar()}"
+                            update="grid" >    
+                            
+                    </p:commandButton>
+	  					
+	  			</div>
+			</div>
+			
+				<h:inputHidden  id="cod" size="5" value="#{professorBean.professor.id}"/>
+                
+                <h:panelGrid styleClass="formulario" columns="3">
+                
+                    <p:outputLabel id="lbNome" value="Nome:" for="nome"  />
+                    <p:inputText id="nome" size="60" value="#{professorBean.professor.nome}"
+                        required="true" requiredMessage="Campo [Nome] é obrigatório."  maxlength="200"/>
+ 	 				<p:message for="nome"></p:message>   
+ 	 				
+                    <p:outputLabel id="lbNomeBreve" value="Nome breve:" for="nomeBreve"  />
+                    <p:inputText id="nomeBreve" size="21" value="#{professorBean.professor.nomeBreve}"
+                        required="true" requiredMessage="Campo [Nome breve] é obrigatório." maxlength="70"/>
+ 	 				<p:message for="nomeBreve"></p:message>     
+  
+                    <p:outputLabel id="lbCpf" value="CPF:" for="cpf" />
+                    <p:inputMask id="cpf" size="11" value="#{professorBean.professor.cpf}"
+                        required="true" requiredMessage="Campo [CPF] é obrigatório."
+                        validatorMessage="Campo [CPF] possui erros. Verifique." mask="999.999.999-99" converter="limpaMascara">
+                    </p:inputMask>
+                    <p:message for="cpf"></p:message>
+ 
+                    <p:outputLabel id="lbCreditosTotais" value="Créditos:" for="creditosTotais" />
+                    <p:inputText id="creditosTotais" size="3" value="#{professorBean.professor.creditosTotais}"
+                        required="true" requiredMessage="Campo [Créditos Totais] é obrigatório."
+                        validatorMessage="Campo [Créditos Totais] possui erros. Mínimo 1, máximo 4 créditos." >
+                        <f:validateLongRange minimum="1" maximum="4" />
+                    </p:inputText>
+                    <p:message for="creditosTotais"></p:message>
+ 
+ 
+                    <p:outputLabel id="lbLogin" value="E-mail:" for="login"/>
+                    <p:inputText id="login" size="20" value="#{professorBean.professor.login}"
+                        required="true" requiredMessage="Campo [E-mail] é obrigatório."
+                        validatorMessage="Campo [Login] possui erros. Formato do e-mail inválido." styleClass="login" maxlength="100">
+                        <f:validateRegex pattern="^[_A-Za-z0-9-\+]+(\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9])*(\.[A-Za-z]{2,})$" />
+                    </p:inputText>
+                    <p:message for="login"></p:message>
+                    
+                    <p:outputLabel id="lbAdministrador" value="Administrador:" for="administrador"/>
+                    <h:selectBooleanCheckbox id="administrador" value="#{professorBean.professor.administrador}"/>
+			                     
+                </h:panelGrid> 
+ 
+                <p:spacer height="10" />
+ 
+        </h:form>
+</ui:composition>

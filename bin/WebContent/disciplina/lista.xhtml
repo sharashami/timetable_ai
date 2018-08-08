@@ -1,0 +1,113 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<ui:composition template="/WEB-INF/templates/default.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml" 
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+	<ui:define name="breadcrumb"> 
+		<p:breadCrumb>
+		    <p:menuitem value="Home" url="/faces/index.xhtml" />
+		    <p:menuitem value="Disciplina" url="/faces/disciplina/lista.xhtml" styleClass="active"/>
+		</p:breadCrumb>
+		
+	</ui:define>
+	
+	<ui:define name="conteudo"> 
+	
+			<div class="row spacing"></div>
+				<div class="ui-grid-row">
+					<div class="ui-grid-col-6">
+						<h:form>
+							<p:inputText placeholder="Digite o nome da disciplina..." size="30" value="#{disciplinaBean.buscaToken}" /> 
+							<p:commandButton actionListener="#{professorBean.index}" id="iconOnly" icon="ui-icon-search" title="Buscar disciplina" />
+						</h:form>
+					</div>	
+					<div class="ui-grid-col-6 pull-right" >			  			
+			  			
+	  					<p:button outcome="/disciplina/ofertar.xhtml" value="Ofertar" icon="ui-icon-plus" title="Ofertar disciplinas" styleClass="pull-right" >
+						</p:button>
+	  					
+	  					<p:button outcome="/disciplina/salvar.xhtml" value="Disciplina" icon="ui-icon-plus" title="Adicionar disciplina" styleClass="pull-right" >
+						</p:button>
+			  			
+			  		</div>
+		  		</div>
+		  		
+		<div class="row spacing"></div>
+        <h:form id="frmGeral">
+                
+                <p:dataTable id="dtDisciplina" emptyMessage="Nenhum registro encontrado."
+                    value="#{disciplinaBean.disciplinas}" var="d"
+                    style="text-align: center; font-weight: bold;" rowStyleClass="#{d.ativo ? 'ativo':'inativo'}"
+                    paginator="true" rows="5" paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}" 
+                     rowsPerPageTemplate="5,10,15">
+                    <f:facet name="header">
+                        <h:outputText value="Registro de Disciplinas" />
+                    </f:facet>
+ 
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="Curso" />
+                        </f:facet>
+                        <h:outputText value="#{d.curso.descricao}" />
+                    </p:column>
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="Nome" />
+                        </f:facet>
+                        <h:outputText value="#{d.descricao}" />
+                    </p:column>
+ 
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="Semestre" />
+                        </f:facet>
+                        <h:outputText value="#{d.semestre}" />
+                    </p:column>
+ 
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="Créditos" />
+                        </f:facet>
+                        <h:outputText value="#{d.credito}" />
+                    </p:column>
+ 
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="Ativo" />
+                        </f:facet>
+                        <h:outputText value="#{d.ativo}" />
+                    </p:column>
+                    
+                    <p:column>
+						 <f:facet name="header">
+                            <h:outputText value=" " />
+                        </f:facet>
+                
+                       <p:commandButton action="salvar"  ajax="false" icon="ui-icon-pencil" title="Editar #{d.descricao}">
+                       		<f:setPropertyActionListener target="#{professorBean.professor}" value="#{d}"></f:setPropertyActionListener>
+    						
+						</p:commandButton>
+	  			
+                        
+                       <p:commandButton icon="ui-icon-close" title="Remover #{d.descricao}" action="#{professorBean.remover()}" execute="@this" update=":frmGeral" >
+                       		<f:setPropertyActionListener target="#{professorBean.professor}" value="#{d}"></f:setPropertyActionListener>	
+						</p:commandButton>
+                        
+                       <p:commandButton icon="ui-icon-cancel" title="#{d.ativo ? 'Desativar ': 'Ativar '}#{d.descricao}" action="#{professorBean.ativarDesativar()}" execute="@this" update=":frmGeral" >
+                       		<f:setPropertyActionListener target="#{professorBean.professor}" value="#{d}"></f:setPropertyActionListener>	
+						</p:commandButton>
+                
+                    </p:column>
+                    
+                    <f:facet name="footer">
+                        <h:outputText
+                            value="Há um total de #{disciplinaBean.count} Disciplinas(s) cadastrada(s) no sistema." />
+                    </f:facet>
+                </p:dataTable>
+        </h:form>
+	</ui:define>
+</ui:composition>

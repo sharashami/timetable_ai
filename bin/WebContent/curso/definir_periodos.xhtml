@@ -1,0 +1,82 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<ui:composition template="/WEB-INF/templates/default.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml" 
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+	<ui:define name="conteudo">
+        <h:form id="frmGeral">
+            <p:fieldset legend="Formulário definir período do Curso : #{cursoBean.curso.nome}">
+                <p:messages id="messages"/>
+ 				
+                <h:panelGrid columns="2" id="pnCursos" style="font-family: Verdana, Arial; font-weight: bold;">
+                            
+	                <h:outputLabel id="lbTurno" value="*Turno " for="turno" style="float: right;"/>          
+	                <h:selectOneMenu id="turno" value="#{cursoBean.turnoID}"  required="true"
+	                                requiredMessage="Campo [Turno] é obrigatório.">
+	                    <f:selectItem itemLabel="Escolha ..." itemValue=""/>
+	                    <f:selectItems value="#{semanaBean.turnos}" var="e"
+	                                itemLabel="#{e.descricao}" itemValue="#{e.id}"/>
+	                </h:selectOneMenu>
+                                  
+ 					<h:outputLabel id="lbQtdePeriodo" value="*Qtde de Período:" for="qtdePeriodo" style="float: right;" />
+                    <p:inputText id="qtdePeriodo" size="20" value="#{cursoBean.qtdePeriodos}" required="true" requiredMessage="Campo [quantidade período] é obrigatório.">
+                    	<f:validateLongRange minimum="4" maximum="#{semanaBean.countPeriodos}"/>          
+                    </p:inputText>
+ 
+                </h:panelGrid>
+ 
+                <center>
+                    <h:panelGrid columns="3"
+                        style="font-size: 12px; font-weight: bold;">
+                        <p:commandButton value="Adicionar Período" action="#{cursoBean.adicionarPeriodo()}"
+                            update="frmGeral, messages" />
+                    </h:panelGrid>
+                </center>
+ 
+ 
+                <p:spacer height="10" />
+ 
+ 
+                <p:dataTable id="dtPeriodos" emptyMessage="Nenhum registro encontrado."
+                    value="#{cursoBean.periodosCurso}" var="p"
+                    style="text-align: center; font-weight: bold;">
+                    <f:facet name="header">
+                        <h:outputText value="Períodos do Curso" />
+                    </f:facet>
+ 
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="Turno" />
+                        </f:facet>
+                        <h:outputText value="#{p.turno.descricao}" />
+                    </p:column>
+     				 
+     				<p:column>
+                        <f:facet name="header">
+                            <h:outputText value="Qtde Períodos" />
+                        </f:facet>
+                        <h:outputText value="#{p.qtdePeriodos}" />
+                    </p:column>
+                    
+                    <p:column>
+						 <f:facet name="header">
+                            <h:outputText value="Remover" />
+                        </f:facet>
+                        <f:ajax event="click" render="@form" listener="#{cursoBean.removerPeriodo(p)}">
+                            <h:commandLink value="Remover" />
+                        </f:ajax>
+                    </p:column>
+                    
+                    <f:facet name="footer">
+                        <h:outputText
+                            value="Períodos definidos para o Curso" />
+                    </f:facet>
+                </p:dataTable>
+                
+            </p:fieldset>
+        </h:form>
+	</ui:define>
+</ui:composition>

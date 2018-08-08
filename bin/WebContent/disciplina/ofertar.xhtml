@@ -1,0 +1,90 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<ui:composition template="/WEB-INF/templates/default.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml" 
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+	<ui:define name="conteudo">
+		<h:form id="frmGeral">
+			<p:selectOneMenu id="eixos" value="#{cursoBean.idEixo}">
+				<p:ajax update="cursos semestres dtDisciplinas"   immediate="true" listener="#{cursoBean.alterarEixo}" process="@this" ></p:ajax>
+		        <f:selectItems value="#{eixoBean.eixos}" var="e" itemLabel="#{e.descricao}" itemValue="#{e.id}"	/>
+		   </p:selectOneMenu>
+		       
+			<p:selectOneMenu id="cursos" value="#{cursoBean.idCurso}">
+				<p:ajax update="semestres dtDisciplinas"  event="change" immediate="true" listener="#{cursoBean.alterarCurso}" process="@this" ></p:ajax>
+				<f:selectItems value="#{cursoBean.cursos}" var="c" itemLabel="#{c.descricao}" itemValue="#{c.id}" /> 
+		    </p:selectOneMenu>
+		       
+		    <p:selectOneMenu id="semestres" value="#{cursoBean.idSemestre}">
+		    	<p:ajax update="dtDisciplinas"   immediate="true" listener="#{cursoBean.alterarSemestre}" process="@this" ></p:ajax>
+		    	<f:selectItem  itemLabel="Selecione o semestre" itemValue="0" />
+		    	<f:selectItems value="#{cursoBean.semestres}" var="s" itemLabel="#{s}" itemValue="#{s}" /> 
+		    </p:selectOneMenu>
+		    
+		    <p:selectOneMenu id="turnos" value="#{cursoBean.idTurno}">
+		    	<p:ajax update="dtDisciplinas"   immediate="true" listener="#{cursoBean.alterarTurno}" process="@this" ></p:ajax>
+		    	<f:selectItem  itemLabel="Selecione o turno" itemValue="0" />
+		        <f:selectItems value="#{semanaBean.turnos}" var="t" itemLabel="#{t.descricao}" itemValue="#{t.id}"	/>
+		   </p:selectOneMenu>
+		   
+		   <p:dataTable id="dtDisciplinas" emptyMessage="Nenhum registro encontrado."
+              value="#{cursoBean.disciplinas}" var="d"
+              style="text-align: center; font-weight: bold;" rowStyleClass="#{d.ativo ? 'ativo':'inativo'}"
+               paginator="true"
+               paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}" >
+              
+              <p:column >
+                  <f:facet name="header">
+                      <h:outputText value="Cód." />
+                  </f:facet>
+                  <h:outputText id="cod" value="#{d.codigo}" />
+              </p:column>
+              <p:column>
+                  <f:facet name="header">
+                      <h:outputText value="Creditos" />
+                  </f:facet>
+                  <h:outputText value="#{d.credito}" />
+              </p:column>
+
+              <p:column>
+                  <f:facet name="header">
+                      <h:outputText value="Nome" />
+                  </f:facet>
+                  <h:outputText value="#{d.descricao}" />
+              </p:column>
+              
+              <p:column>
+                  <f:facet name="header">
+                      <h:outputText value="Semestre" />
+                  </f:facet>
+                  <h:outputText value="#{d.semestre}" />
+              </p:column>
+              <p:column>
+                  <f:facet name="header">
+                      <h:outputText value="Tuno" />
+                  </f:facet>
+                  <h:outputText value="#{d.turno}" rendered="#{d != null and d.ofertada == true}" />
+                  <p:selectOneMenu id="turnos" value="#{cursoBean.idTurnoOferta}" rendered="#{d != null and d.ofertada == false}">
+		        	<f:selectItems value="#{semanaBean.turnos}" var="t" itemLabel="#{t.descricao}" itemValue="#{t.id}"	/>
+		          </p:selectOneMenu>
+              </p:column>
+              <p:column>
+              	<f:facet name="header">
+                      <h:outputText value="Ação" />
+                  </f:facet>
+                  	  <p:commandButton icon="ui-icon-close" title="Ofertar #{d.descricao}" action="#{cursoBean.ofertar()}" execute="@this" update=":frmGeral" rendered="#{d != null and d.ofertada == false}">
+                       		<f:setPropertyActionListener target="#{cursoBean.idDisciplinaOfertada}" value="#{d.id}"></f:setPropertyActionListener>	
+						</p:commandButton>
+              </p:column>
+
+              
+              <f:facet name="footer">
+                 	<!-- dodape quantidade -->
+              </f:facet>
+          </p:dataTable>
+        </h:form>
+	</ui:define>
+</ui:composition>

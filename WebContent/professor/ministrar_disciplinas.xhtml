@@ -1,0 +1,109 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<ui:composition template="/WEB-INF/templates/default.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml" 
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+	<ui:define name="conteudo"> 
+        <h:form id="frmGeral">
+            <p:fieldset legend="Ministrar Disciplina :">
+                <center>
+                    <h:panelGrid columns="3"
+                        style="font-size: 12px; font-weight: bold;">
+                          
+ 
+                    </h:panelGrid>
+                </center>
+ 
+                <p:spacer height="10" />
+ 
+                <p:dataTable id="dtDisciplinasOfertadas" emptyMessage="Nenhum registro encontrado."
+                    value="#{disciplinaBean.disciplinasOfertadas}" var="d"
+                    style="text-align: center; font-weight: bold;">
+                    <f:facet name="header">
+                        <h:outputText value="Disciplinas Ofertadas" />
+                    </f:facet>
+ 
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="Disciplina" />
+                        </f:facet>
+                        <h:outputText value="#{d.disciplina.nome}" />
+                    </p:column>
+ 	
+ 					<p:column>
+                        <f:facet name="header">
+                            <h:outputText value="Turno" />
+                        </f:facet>
+                        <h:outputText value="#{d.turno.descricao}" />
+                    </p:column>
+                    
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="Créditos Totais" />
+                        </f:facet>
+                        <h:outputText value="#{d.creditosTotais}" />
+                    </p:column>
+ 
+ 					<p:column>
+                        <f:facet name="header">
+                            <h:outputText value="Créditos Restantes" />
+                        </f:facet>
+                        <h:outputText value="#{d.creditosRestantes}" />
+                    </p:column>
+                    
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="Ministrar Créditos" />
+                        </f:facet>
+                        <p:inputText id="nome" size="4" value="#{professorBean.creditosAMinstrar}"
+                        required="true" requiredMessage="Campo [Creditos a Ministrar] é obrigatório." />
+ 
+ 
+                    </p:column>
+ 
+ 					<p:column>
+                        <f:facet name="header">
+                            <h:outputText value="Paralela" />
+                        </f:facet>
+	                    <h:selectBooleanCheckbox id="ativa" value="#{professorBean.paralela}"/>
+			            
+                    </p:column>   
+			               
+                    <p:column>
+                         <f:facet name="header">
+                            <h:outputText value="Ministrar" />
+                        </f:facet>
+                        <h:commandLink value ="Ministrar" action="#{professorBean.ministrar(d)}"/>
+                        
+                    </p:column>
+                    
+                    <f:facet name="footer">
+                        <h:outputText
+                            value="....." />
+                    </f:facet>
+                </p:dataTable>
+                
+                
+                <p:spacer height="20" />
+                
+                
+                <p:dataTable id="dtDisciplinasProfessor" emptyMessage="Nenhum registro encontrado."
+                    value="#{disciplinaBean.disciplinasOfertadas}" var="d"
+                    style="text-align: center; font-weight: bold;">
+                    <f:facet name="header">
+                        <h:outputText value="Disciplinas do Professor" />
+                    </f:facet>
+ 
+                    <f:facet name="footer">
+                        <h:outputText
+                            value="....." />
+                    </f:facet>
+                </p:dataTable>
+                
+            </p:fieldset>
+        </h:form>
+	</ui:define>
+</ui:composition>

@@ -1,0 +1,50 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<ui:composition template="/WEB-INF/templates/login.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml" 
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+	<ui:define name="breadcrumb">
+		<p:breadCrumb> 
+			<p:menuitem value="Home" url="/faces/index.xhtml" />
+		    <p:menuitem value="Login" url="#" styleClass="active"/>
+		</p:breadCrumb>
+	</ui:define>
+  	 	 
+	<ui:define name="conteudo">
+		
+        <center>
+        	<h:form id="frmGeral" styleClass="formulario login" >
+				
+		        <p:messages id="messages"/>
+				<div class="row spacing"></div>
+				                
+              	<h:panelGrid columns="2"  id="pnDvds">
+              	
+	            	<p:outputLabel id="lbLogin" value="E-Mail:" for="email" />
+	                <p:inputText id="email" size="30" styleClass="login" value="#{loginBean.professor.login}"
+	                        required="true" requiredMessage="Campo [E-mail] é obrigatório." validatorMessage="Campo [Login] possui erros. Formato do e-mail inválido." >
+	                        <f:validateRegex pattern="[\w\.-]*[a-zA-Z0-9_]@[\w\.-]*[a-zA-Z0-9]\.[a-zA-Z][a-zA-Z\.]*[a-zA-Z]"></f:validateRegex> 
+	                        <f:validateLength maximum="100" ></f:validateLength> 
+	                </p:inputText>
+
+					<p:outputLabel id="lbSenha" value="Senha:" for="senha"/>
+	                <p:inputText id="senha" size="30" styleClass="senha" value="#{loginBean.professor.senha}"  
+		                   	type="password" required="true" requiredMessage="Campo [Senha] é obrigatório.">
+		                   	<f:validateLength maximum="64" ></f:validateLength> 
+					</p:inputText>
+					
+					<h:link  value="Esqueci minha senha!" outcome="recuperarsenha.xhtml" />   
+					<p:commandButton value="Entrar" styleClass="pull-right" action="#{loginBean.autenticar()}"
+	                            update="frmGeral, messages" />
+                                       
+                </h:panelGrid>
+               
+        	</h:form>
+         </center>
+       
+	</ui:define>
+</ui:composition>

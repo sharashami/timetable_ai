@@ -1,0 +1,48 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<ui:composition template="/WEB-INF/templates/default.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml" 
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+	<ui:define name="conteudo"> 
+        <h:form id="frmGeral2">
+            <p:fieldset legend="Formulário de Disciplinas">
+                <p:messages id="messages"/>
+ 				<h:messages globalOnly="true" />
+ 				
+                <h:panelGrid columns="2" id="pnDvds" style="font-family: Verdana, Arial; font-weight: bold;">
+                	<h:outputLabel id="lbNome" value="*Nome:" for="nome" style="float: right;" />
+                    <p:inputText id="nome" size="60" value="#{disciplinaBean.disciplina.nome}"
+                        required="true" requiredMessage="Campo [Nome] é obrigatório." />
+ 
+                    <h:outputLabel id="lbSemestre" value="*Semestre:" for="semestre" style="float: right;" />
+                    <p:inputText id="semestre" size="2" value="#{disciplinaBean.disciplina.semestre}"
+                    	required="true" requiredMessage="Campo [Semestre] é obrigatório."/>
+ 
+                    <h:outputLabel id="lbCredito" value="*Créditos:" for="credito" style="float: right;" />
+                    <p:inputText id="credito" size="3" value="#{disciplinaBean.disciplina.credito}"
+                        required="true" requiredMessage="Campo [Créditos] é obrigatório."/>
+ 
+                    <h:outputLabel id="lbAtiva" value="*Ativa:" for="ativa"
+                        style="float: right;" />
+                    <h:selectBooleanCheckbox id="ativa" value="#{disciplinaBean.disciplina.ativo}"/>
+			                           
+                </h:panelGrid>
+ 
+                <center>
+                    <h:panelGrid columns="3"
+                        style="font-size: 12px; font-weight: bold;">
+                        <p:commandButton value="Editar Disciplina" action="#{disciplinaBean.editar()}"
+                            update="frmGeral2, messages" />
+                    </h:panelGrid>
+                </center>
+ 
+                <p:spacer height="10" />
+ 
+            </p:fieldset>
+        </h:form>
+ 
+	</ui:define>
+</ui:composition>

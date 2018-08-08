@@ -1,0 +1,76 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<ui:composition template="/WEB-INF/templates/default.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml" 
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+	<ui:define name="conteudo"> 
+        <h:form id="frmGeral">
+                <center>
+                    <h:panelGrid columns="3"
+                        style="font-size: 12px; font-weight: bold;">
+                        
+    					<h:link outcome="adicionar">
+							<h:outputText value="Adicionar"/>
+						</h:link>                        
+ 
+                    </h:panelGrid>
+                </center>
+ 
+                <p:spacer height="10" />
+ 
+                <p:dataTable id="dtMatriz" emptyMessage="Nenhum registro encontrado."
+                    value="#{matrizCurricularBean.matrizes}" var="dm"
+                    style="text-align: center; font-weight: bold;">
+                    <f:facet name="header">
+                        <h:outputText value="Registro de Disciplinas" />
+                    </f:facet>
+ 
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="Disciplinas" />
+                        </f:facet>
+                        <h:outputText value="#{m.disciplina}" />
+                    </p:column>
+ 
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="Curso" />
+                        </f:facet>
+                        <h:outputText value="#{m.curso}" />
+                    </p:column>
+ 
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="Ativo" />
+                        </f:facet>
+                        <h:outputText value="#{m.ativo}" />
+                    </p:column>
+                    
+                    <p:column>
+						 <f:facet name="header">
+                            <h:outputText value="Remover" />
+                        </f:facet>
+                        <f:ajax event="click" render="@form" listener="#{matrizCurricularBean.remover(m)}">
+                            <h:commandLink value="Remover" />
+                        </f:ajax>
+                    </p:column>
+ 
+                    <p:column>
+                         <f:facet name="header">
+                            <h:outputText value="Editar" />
+                        </f:facet>
+                        <h:commandLink value ="Editar" action="#{matrizCurricularBean.preparaEditar(m)}"/>
+                        
+                    </p:column>
+                    
+                    <f:facet name="footer">
+                        <h:outputText
+                            value="Há um total de #{matrizCurricularBean.count} Disciplonas(s) cadastrada(s) no sistema." />
+                    </f:facet>
+                </p:dataTable>
+        </h:form>
+	</ui:define>
+</ui:composition>

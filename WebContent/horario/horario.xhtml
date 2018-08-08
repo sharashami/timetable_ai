@@ -1,0 +1,192 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<ui:composition template="/WEB-INF/templates/default.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml" 
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+   	xmlns:c="http://java.sun.com/jstl/core"
+   	xmlns:fn="http://java.sun.com/jsp/jstl/functions">
+
+	<ui:define name="breadcrumb"> 
+		<p:breadCrumb>
+		    <p:menuitem value="Home" url="/faces/index.xhtml" />
+		    <p:menuitem value="Timetable" url="/faces/horario/horario.xhtml" styleClass="active"/>
+		</p:breadCrumb>
+		
+	</ui:define>
+	<ui:define name="conteudo"> 
+		
+			<p:messages globalOnly="true" showDetail="true" showSummary="true"/>
+			<div class="row spacing">
+				
+			</div>
+
+        <h:form> 
+         
+        		<h:panelGrid styleClass="formulario" columns="3">
+        			 		        
+	  				<p:commandButton value="Gerar horário" style="margin-top:-5px;" icon="ui-icon-calendar"  update=":frmGeral" action="#{horarioBean.gerarHorario()}" >    
+                            
+                    </p:commandButton>
+        		</h:panelGrid>	        
+        </h:form>
+        
+        
+        <h:form id="frmGeral">
+        			
+        		
+	             	<c:forEach items="${horarioBean.resultado}" var="ofertasCurso">
+	             		
+	               		<c:forEach items="${ofertasCurso.shiftOffers}" var="ofertasTurno">
+		             		<p:panelGrid>
+		             		 	
+	       						<f:facet name="header">
+	       							
+							        <p:row>
+							            <p:column colspan="${horarioBean.numeroDias}"><b>HORÁRIO ${ofertasCurso.name} </b></p:column>
+							            						            
+							        </p:row>
+							        <p:row>
+							            <c:forEach items="${horarioBean.diasDaSemana}" var="dia">
+								    		<p:column>${dia.descricao}</p:column>
+								  		</c:forEach>						            
+							        </p:row>
+							    </f:facet>
+								<c:set var="linhas" value="${fn:length(ofertasTurno)/horarioBean.numeroDias}"/>
+        						
+        						<c:set var="semestre" value="0"/>
+        						<c:forEach items="${ofertasTurno}" var="aula" begin="0" end="${horarioBean.numeroDias-1}" step="1">
+		        					<c:if test="${aula.semester gt 0}"> 
+			        					<c:set var="semestre" value="${aula.semester}"/>
+			        					<c:set var="turno" value="${aula.shiftName}"/>
+        							</c:if>
+						  		</c:forEach>
+        						
+        						<p:row>
+        							<p:column styleClass="ui-widget-header" style="font-weight: bold !important;" colspan="${horarioBean.numeroDias}"> SEMESTRE ${semestre} - ${turno}</p:column>
+        						</p:row>
+        						
+        						<c:forEach var="i" begin="0" end="${linhas-1}" step="1" >
+       								<c:forEach items="${ofertasTurno}" var="aula" begin="${i*horarioBean.numeroDias}" end="${i*horarioBean.numeroDias+5-1}" step="1" varStatus="index">
+			        					<c:if test="${aula.semester gt 0 and aula.semester ne semestre}">  
+	        								<c:set var="semestre" value="${aula.semester}"/>
+			        						<c:set var="turno" value="${aula.shiftName}"/>      							
+			        						<p:row>
+			        							<p:column styleClass="ui-widget-header" style="font-weight: bold !important;" colspan="${horarioBean.numeroDias}"> SEMESTRE ${semestre} - ${turno}</p:column>
+			        						</p:row>
+        								</c:if>
+							  		</c:forEach>
+        							
+									<p:row>
+			        					<c:forEach items="${ofertasTurno}" var="aula" begin="${i*horarioBean.numeroDias}" end="${i*horarioBean.numeroDias+5-1}" step="1" varStatus="index">
+				        						<p:column >${aula.view}</p:column>
+								  		</c:forEach>
+								  	</p:row>
+								</c:forEach>
+								
+						        
+							  	<p:row>
+		       						<p:column colspan="${horarioBean.numeroDias}">
+							            ${ofertasCurso.debug}
+							        </p:column>	         
+						        </p:row>				
+							  	<p:row>
+		       						<p:column colspan="${horarioBean.numeroDias}">
+							            <p:spacer height="10"/>
+							        </p:column>					            
+						        </p:row>   
+						        
+							</p:panelGrid>
+						</c:forEach>			
+					</c:forEach>
+		        <!-- 
+                <c:forEach items="${horarioBean.resultado}" var="ofertasCurso">
+	                <p:spacer height="10" />
+	                <c:forEach items="${ofertasCurso.shiftOffers}" var="ofertasTurno">
+	                
+		                <p:panelGrid rendered="#{horarioBean.mostrarTabela}" style="width:100%;" border="1" cellpadding="5" cellspacing="2" >
+		        				<f:facet name="header">
+							        <p:row>
+							            <p:column colspan="${horarioBean.numeroDias}"><b>HORÁRIO</b></p:column>
+							        </p:row>
+							        <p:row>
+								        <c:forEach items="${horarioBean.diasDaSemana}" var="dia">
+								    		<p:column>${dia.descricao}</p:column>
+								  		</c:forEach>						            
+							        </p:row>
+							    </f:facet>
+		        		</p:panelGrid>
+	        		
+		 				<p:panelGrid rendered="#{horarioBean.mostrarTabela}" styleClass="formulario" columns="#{horarioBean.numeroDias}" border="1" cellpadding="5" cellspacing="2" >        
+		        				
+		        				<c:forEach items="${ofertasTurno}" var="aula">
+		        					<p:row>
+		        						<p:column >${aula.view}</p:column>
+		        					</p:row>
+							  	</c:forEach>
+		        		</p:panelGrid>
+	        		</c:forEach>
+				</c:forEach>
+                	 
+        		 -->
+        		
+        		
+        		<p:spacer height="10" />
+        		<!-- Testando colocar semestre
+                <p:panelGrid rendered="#{horarioBean.mostrarTabela}" style="width:100%;" border="1" cellpadding="5" cellspacing="2" >
+        				<f:facet name="header">
+					        <p:row>
+					            <p:column colspan="${horarioBean.numeroDias}"><b>HORÁRIO</b></p:column>
+					        </p:row>
+					        <p:row>
+					        	<p:column>SEMESTRE</p:column>
+						        <c:forEach items="${horarioBean.diasDaSemana}" var="dia">
+						    		<p:column>${dia.descricao}</p:column>
+						  		</c:forEach>						            
+					        </p:row>
+					 
+					    </f:facet>
+        			 
+        		</p:panelGrid>
+        	
+        		<c:set var="semestreAtual" value="0"/>
+        		<c:set var="ultimoSemestre" value="0"/>
+        		<c:set var="colunaAtual" value="0"/>
+        		
+        		
+ 				<p:panelGrid rendered="#{horarioBean.mostrarTabela}" styleClass="formulario" columns="#{horarioBean.numeroDias}" border="1" cellpadding="5" cellspacing="2" >
+        					
+        						        
+        				<c:forEach items="${horarioBean.resultado}" var="aula">
+        					
+        					<c:if  test="${aula.semester != ultimoSemestre}">
+								<c:set var="ultimoSemestre" value="${aula.semester}"/>
+								<p:column rowspan="2" style="font-weight: bold;">${aula.semester}</p:column>				
+							</c:if>
+							
+							<c:if  test="${colunaAtual == 0}">
+								<p:row>
+							</c:if>
+        						<p:row>
+        							<p:column>${aula.view}</p:column>
+        						</p:row>
+        					<c:set var="colunaAtual" value="${colunaAtual + 1}"/>
+        					
+							<c:if  test="${colunaAtual == horarioBean.numeroDias}">
+								<c:set var="colunaAtual" value="0"/>
+								</p:row>
+							</c:if>
+							
+        					
+        								
+							<c:if  test="${aula.semester != ultimoSemestre}">
+								<c:set var="ultimoSemestre" value="${aula.semester}"/>
+								<p:column rowspan="2" style="font-weight: bold;">${aula.semester}</p:column>				
+							</c:if>        				
+					  	</c:forEach>
+        		</p:panelGrid>	  -->
+        </h:form>
+	</ui:define>
+</ui:composition>

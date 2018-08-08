@@ -1,0 +1,72 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<ui:composition template="/WEB-INF/templates/default.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml" 
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+   	xmlns:c="http://java.sun.com/jstl/core">
+	
+	
+	<ui:define name="conteudo">
+	<!-- 
+	<p:button outcome="/semestre_letivo/lista" value="Semestre Letivo" icon="ui-icon-star">
+    	
+	</p:button>
+ 
+	<p:button outcome="/eixo/lista" value="Eixo" icon="ui-icon-star">
+	    
+	</p:button>
+	 
+	<p:button outcome="/curso/lista" value="Curso" icon="ui-icon-star" title="Icon Only">
+	    
+	</p:button>
+	 
+	<p:button outcome="/disciplina/lista" value="Disciplina" icon="ui-icon-star" >
+	    
+	</p:button>
+	<p:button outcome="/matriz/lista" value="Matriz Curricular" icon="ui-icon-star" >
+	    disabled="true"
+	</p:button>
+	<br></br>
+		   		 -->
+		   		 
+		<p:panelGrid styleClass="table_modulos">
+		    <p:row>
+		    	<c:choose>
+				  <c:when test="${loginBean.professor.administrador}">
+					   <p:column >
+				        	<h:link id="m_professor" outcome="/professor/lista" value=""><p:graphicImage value="/resources/images/m_professor.png" ></p:graphicImage></h:link>
+				        	<p:tooltip  for="m_professor" value="Professores" />
+			        	</p:column>
+				  </c:when>
+				  <c:otherwise>
+				 	 	<p:column >
+				        	<h:link id="m_professor_n_admin" outcome="/professor/indisponibilidade" value=""><p:graphicImage value="/resources/images/m_professor_n_admin.png" ></p:graphicImage></h:link>
+				        	<p:tooltip  for="m_professor_n_admin" value="Minha indisponibilidade" />
+			        	</p:column>
+				  </c:otherwise>
+				</c:choose>
+		        
+		        <c:if test="${loginBean.professor.administrador}">
+				    <p:column >
+			        	<h:link id="m_configuracao" outcome="/config.xhtml" value=""><p:graphicImage value="/resources/images/m_configuracao.png"></p:graphicImage></h:link>
+			        	<p:tooltip  for="m_configuracao" value="Configurações" />
+		        	</p:column>
+		        	<p:column >
+			        	<h:link id="m_curso"  value="" outcome="/disciplina/lista"><p:graphicImage value="/resources/images/m_curso.png"></p:graphicImage></h:link>
+			        	<p:tooltip  for="m_curso" value="Cursos, disciplinas, matrizes curriculares" />
+		        	</p:column>
+				</c:if>
+		       		        
+		        <p:column >
+		        	<h:link id="m_horario" outcome="/horario/lista" value=""><p:graphicImage value="/resources/images/m_horario.png"></p:graphicImage></h:link>
+		        	<p:tooltip  for="m_horario" value="Quadro de horário das aulas" />
+		        </p:column>
+		      
+		    </p:row>
+		 
+		</p:panelGrid>
+	</ui:define>
+</ui:composition>

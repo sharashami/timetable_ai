@@ -1,0 +1,104 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<ui:composition template="/WEB-INF/templates/default.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml" 
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+   	xmlns:c="http://java.sun.com/jstl/core"
+   	xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+	xmlns:p="http://primefaces.org/ui">
+
+	<ui:define name="breadcrumb"> 
+		<p:breadCrumb>
+		    <p:menuitem value="Home" url="/faces/index.xhtml" />
+		    <p:menuitem value="Professor" url="/faces/professor/lista.xhtml"/>
+		    <p:menuitem value="Indisponibilidade" url="/faces/professor/indisponibilidade.xhtml" styleClass="active"/>
+		</p:breadCrumb>
+		
+	</ui:define>
+	<ui:define name="conteudo"> 
+			<p:messages globalOnly="true" showDetail="true" showSummary="true"/>
+			<div class="row spacing"></div>
+								
+				<h:form  id="frmGeral">	
+	 				<p:panelGrid columns="${fn:length(professorIndisponibilidadeBean.diasSemana)}" rendered="${not empty professorIndisponibilidadeBean.indisponibilidadeManhaView}" layout="grid" styleClass="text-center tabela_indisponibilidade">
+	 					<f:facet name="header">
+		 						MANHÃ
+		 				</f:facet>
+	 					
+				        <c:forEach items="${professorIndisponibilidadeBean.diasSemana}" var="dia">
+				        	<div class="ui-panelgrid-header ui-widget-header">${dia.descricao}</div>
+				  		</c:forEach>    
+					    
+	 					<c:forEach items="#{professorIndisponibilidadeBean.indisponibilidadeManhaView}" var="v">
+	 						<p:commandLink  styleClass="tab_inidisp_celula" action="#{professorIndisponibilidadeBean.updateIndisponibilidade}" ajax="true" update=":frmGeral :headPanel" >
+	 							<f:setPropertyActionListener target="#{professorIndisponibilidadeBean.indisponibilidadeSelecionada}" value="#{v}"></f:setPropertyActionListener>
+		 						<p:selectBooleanCheckbox disabled="true" value="#{v.indisponivel}" label="#{v.periodo}">#{v.periodo}
+		 								
+		 						</p:selectBooleanCheckbox>
+	 						</p:commandLink>
+	 					</c:forEach>
+	 					
+	 				</p:panelGrid>
+		 		
+		 			<div class="row spacing"></div>
+
+	 				<p:panelGrid columns="${fn:length(professorIndisponibilidadeBean.diasSemana)}" rendered="${not empty professorIndisponibilidadeBean.indisponibilidadeTardeView}" layout="grid" styleClass="tabela_indisponibilidade text-center">
+						<f:facet name="header">
+		 						TARDE
+		 				</f:facet>
+	 					
+				        <c:forEach items="${professorIndisponibilidadeBean.diasSemana}" var="dia">
+				        	<div class="ui-panelgrid-header ui-widget-header">${dia.descricao}</div>
+				  		</c:forEach>    
+					    
+	 					<c:forEach items="#{professorIndisponibilidadeBean.indisponibilidadeTardeView}" var="v">
+	 						<p:commandLink  styleClass="tab_inidisp_celula" action="#{professorIndisponibilidadeBean.updateIndisponibilidade}" ajax="true" update=":frmGeral :headPanel" >
+	 							<f:setPropertyActionListener target="#{professorIndisponibilidadeBean.indisponibilidadeSelecionada}" value="#{v}"></f:setPropertyActionListener>
+		 						<p:selectBooleanCheckbox disabled="true"   value="#{v.indisponivel}" label="#{v.periodo}">#{v.periodo}
+		 								
+		 						</p:selectBooleanCheckbox>
+	 						</p:commandLink>
+	 						
+	 					</c:forEach>
+	 					
+	 				</p:panelGrid>
+		 				
+		 			<div class="row spacing"></div>
+					
+	 				<p:panelGrid columns="${fn:length(professorIndisponibilidadeBean.diasSemana)}" rendered="${not empty professorIndisponibilidadeBean.indisponibilidadeNoiteView}" layout="grid" styleClass="tabela_indisponibilidade text-center">
+						<f:facet name="header">
+		 						NOITE
+		 				</f:facet>
+	 					
+				        <c:forEach items="${professorIndisponibilidadeBean.diasSemana}" var="dia">
+				        	<div class="ui-panelgrid-header ui-widget-header">${dia.descricao}</div>
+				  		</c:forEach>    
+					    
+	 					<c:forEach items="#{professorIndisponibilidadeBean.indisponibilidadeNoiteView}" var="v">
+	 						<p:commandLink  styleClass="tab_inidisp_celula" action="#{professorIndisponibilidadeBean.updateIndisponibilidade}" ajax="true" update=":frmGeral :headPanel" >
+	 							<f:setPropertyActionListener target="#{professorIndisponibilidadeBean.indisponibilidadeSelecionada}" value="#{v}"></f:setPropertyActionListener>
+		 						<p:selectBooleanCheckbox disabled="true"   value="#{v.indisponivel}" label="#{v.periodo}">#{v.periodo}
+		 								
+		 						</p:selectBooleanCheckbox>
+	 						</p:commandLink>
+	 					</c:forEach>
+	 					
+	 				</p:panelGrid>
+	 				
+				</h:form>	
+	 	<h:panelGroup id="headPanel" layout="block">
+    		<script type="text/javascript">
+				$(document).ready(function() {
+					$('.tabela_indisponibilidade .null').each(function(i){
+				        // Aplica a cor de fundo
+				        $(this).addClass("ui-grid-col-3");
+				    }); 
+				});
+			</script>
+    		
+    		
+    	</h:panelGroup>
+	</ui:define>
+</ui:composition>

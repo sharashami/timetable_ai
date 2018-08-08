@@ -1,0 +1,83 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+   		
+    	<h:head> 
+    		<h:outputStylesheet library="css" name="style.css"  />
+    		<h:outputStylesheet library="css" name="bootstrap.min.css"  />
+    		<h:outputStylesheet library="css" name="bootstrap-responsive.css"  />
+    		<h:outputScript library="js" name="bootstrap.min.js"></h:outputScript>
+	        <f:facet name="first">
+	            <meta content='text/html; charset=UTF-8' http-equiv="Content-Type"/>
+	            <title><ui:insert name="title"/></title>
+	        </f:facet>
+    	
+    	 	<ui:insert name="head"/>
+     	</h:head>
+    	 <h:body>
+			    	  <f:view contentType="text/html">
+			    	 	<!-- Fixed navbar -->
+			    	 	<header class="navbar navbar-static-top bs-docs-nav" id="top" role="banner">
+				    	 	<div class="container">
+					    	 		<div class="navbar-header">
+							          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+							            <span class="sr-only">Toggle navigation</span>
+							            <span class="icon-bar"></span>
+							            <span class="icon-bar"></span>
+							            <span class="icon-bar"></span>
+							          </button>
+							          <a class="navbar-brand" href="#">Horário Aula</a>
+							        </div>
+					    	 		<nav class="collapse navbar-collapse bs-navbar-collapse">
+					  					   
+								        	<ul class="nav navbar-nav">
+										        <li><p:link outcome="/index" value="Home"/></li>
+										        <li><p:link outcome="/about" value="Sobre"/></li>
+								        		<ui:insert name="menu_fixo"/>
+								        		
+								        		<li> <a><h:outputLabel value="Olá, #{loginBean.professor.nomeBreve} !"/></a></li>
+								        		
+						      				</ul>
+								        	
+								         	<ul class="nav navbar-nav navbar-right">
+										        <li>
+										        	<h:form style="padding-top:12px;padding-bottom:11px;">
+										        		<h:commandLink  action="#{loginBean.logout()}"  value=""><p:graphicImage value="/resources/images/logout.png" ></p:graphicImage><span style="padding-left: 10px;">Logout</span></h:commandLink>
+										        	</h:form>
+								        		</li>
+						      				</ul>								      
+									</nav><!--/.nav-collapse -->
+								</div>
+							</header>
+			    	 
+			   	 	
+		    	 <div class="ui-grid ui-grid-responsive">
+		    	 	<div class="ui-grid-row">
+					   <div class="ui-grid-col-12">
+				   	 	 <div class="container">
+				   	 	 	<h:form id="breadcrumb">
+				    	 		<ui:insert name="breadcrumb"/>
+				    	 	</h:form>
+							
+				            
+				         </div>
+				       </div>
+				    </div>
+				   	<div class="container">
+			        	<ui:insert name="conteudo"/>
+			        </div>
+			    	 <div style="margin-bottom:  30px;"></div>
+				    <div id="footer">
+				      <div class="container">
+				        <p class="muted credit">&#169; 2014 <a href="#">Fulano</a>. Todos os direitos reservados.</p>
+				      </div>
+				    </div>
+				</div>
+		    </f:view>
+        </h:body>
+    
+            
+</html>

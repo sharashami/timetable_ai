@@ -1,0 +1,83 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<ui:composition template="/WEB-INF/templates/default.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml" 
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+	
+	
+	<ui:define name="breadcrumb">
+	
+		<p:breadCrumb> 
+			<p:menuitem value="Home" url="/faces/index.xhtml" />
+		    <p:menuitem value="Disciplina" url="/faces/disciplina/lista.xhtml"/>
+		    <p:menuitem value="Adicionar" url="#" styleClass="active"/>
+		</p:breadCrumb>
+		
+	
+	</ui:define>
+	<ui:define name="conteudo">
+        <h:form id="grid" styleClass="formulario">
+			<p:messages globalOnly="true" showSummary="true" showDetail="true"/>
+ 
+			<div class="row spacing">
+	  			<div class="pull-right" style="padding-right: 13px">
+	  			
+	  				<p:commandButton value="Salvar" action="#{disciplinaBean.salvar()}"
+                            update="grid" >    </p:commandButton>
+	  					
+	  			</div>
+			</div>
+			
+			<h:inputHidden  id="cod" size="5" value="#{disciplinaBean.disciplina.id}"/>
+                
+                
+            <h:panelGrid styleClass="formulario" columns="3">
+            	
+             	<p:outputLabel id="lbDescricao" value="Nome:" for="descricao"  />
+                    <p:inputText id="descricao" size="30" value="#{disciplinaBean.disciplina.descricao}"
+                        required="true" requiredMessage="Campo [Nome] é obrigatório."  maxlength="100"/>
+ 	 				<p:message for="descricao"></p:message>   
+            
+             	<p:outputLabel id="lbCodigo" value="Código:" for="codigo"  />
+                    <p:inputText id="codigo" size="15" value="#{disciplinaBean.disciplina.codigo}"
+                        required="true" requiredMessage="Campo [Nome] é obrigatório."  maxlength="30"/>
+ 	 				<p:message for="codigo"></p:message>   
+            
+            
+            	<p:outputLabel id="lbCurso" value="Curso" for="curso"/>          
+	                <p:selectOneMenu id="curso" value="#{disciplinaBean.disciplina.curso.id}"  required="true"
+	                                requiredMessage="Campo [Curso] é obrigatório.">
+	                    <f:selectItem itemLabel="Escolha ..." itemValue=""/>
+	                    <f:selectItems value="#{disciplinaBean.cursos}" var="e"
+	                                itemLabel="#{e.descricao}" itemValue="#{e.id}"/>
+	                </p:selectOneMenu>
+	                <p:message for="curso"></p:message>   
+            
+                <p:outputLabel id="lbSemestre" value="Semestre:" for="semestre" />
+                <p:inputText id="semestre" size="3" value="#{disciplinaBean.disciplina.semestre}"
+                    required="true" requiredMessage="Campo [Semestre] é obrigatório."
+                    validatorMessage="Campo [Semestre] possui erros. Mínimo 1, máximo 10." >
+                    <f:validateLongRange minimum="1" maximum="10" />
+                </p:inputText>
+                <p:message for="semestre"></p:message>
+ 
+ 
+                <p:outputLabel id="lbCredito" value="Créditos:" for="credito" />
+                <p:inputText id="credito" size="3" value="#{disciplinaBean.disciplina.credito}"
+                    required="true" requiredMessage="Campo [Crédito] é obrigatório."
+                    validatorMessage="Campo [Crédito] possui erros. Mínimo 1, máximo 4 créditos."  title="1 a 4 créditos">
+                    <f:validateLongRange minimum="1" maximum="4" />
+                </p:inputText>
+                <p:message for="credito"></p:message>
+			                     
+                </h:panelGrid>
+  
+                <p:spacer height="10" />
+ 
+        </h:form>
+ 
+	</ui:define>
+</ui:composition>

@@ -1,0 +1,47 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<ui:composition template="/WEB-INF/templates/default.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml" 
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+	
+	<ui:define name="conteudo">
+		<div class="row">
+			
+	    
+	   		<p:link value="Módulo Semestre Letivo" outcome="/semestre_letivo/lista" />
+	   		
+	   		<p:link value="Módulo Eixo" outcome="/eixo/lista" />
+	   		
+	   		<p:link value="Módulo Curso" outcome="/curso/lista" />
+	   			
+	   		<p:link value="Módulo Disciplina" outcome="/disciplina/lista" />
+	   		
+	   		<p:link value="Módulo Matriz Curricular" outcome="/matriz/lista" />
+   		</div>
+   		
+   		
+   		
+		<p:panelGrid style="margin-top:20px" styleClass="table_modulos">
+		    <p:row>
+		        <p:column >
+		        	<h:link id="m_professor" outcome="/professor/lista" value=""><p:graphicImage value="/resources/images/m_professor.png" ></p:graphicImage></h:link>
+		        	<p:tooltip  for="m_professor" value="Professor" />
+		        </p:column>
+		        
+		        <p:column >
+		        	<h:link id="m_configuracao" outcome="/config.xhtml" value=""><p:graphicImage value="/resources/images/m_configuracao.png"></p:graphicImage></h:link>
+		        	<p:tooltip  for="m_configuracao" value="Configurações" />
+		        </p:column>
+		        <p:column ><p:link value="Módulo Eixo" outcome="/eixo/lista" /></p:column>
+		        <p:column ><p:link value="Módulo Curso" outcome="/curso/lista" />	</p:column>
+		        <p:column ><p:link value="Módulo Disciplina" outcome="/disciplina/lista" /></p:column>
+		        <p:column ><p:link value="Módulo Matriz Curricular" outcome="/matriz/lista" />	</p:column>
+		        
+		    </p:row>
+		 
+		</p:panelGrid>
+	</ui:define>
+</ui:composition>
